@@ -5,7 +5,7 @@
     <arg name="panda_2_gripper" default="true"/>
 
     <!-- The path to a robot description (xacro) file to control -->
-    <arg name="robot" default="$(find mmint_franka_description)/robots/vention_dual_panda.urdf.xacro"/>
+    <arg name="robot" default="$(find mmint_franka_description)/robots/mmint_combined_panda.urdf.xacro"/>
 
     <!-- Additional XACRO args. Be sure to escape colons and equal signs
          with backslashes, because XACRO use same syntax as roslaunch:
