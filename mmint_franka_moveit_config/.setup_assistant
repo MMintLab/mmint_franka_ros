@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: mmint_franka_description
+    relative_path: robots/mmint_combined_panda.urdf.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/panda.srdf
+  CONFIG:
+    author_name: Mark Van der Merwe
+    author_email: markvdm@umich.edu
+    generated_timestamp: 1702076178
