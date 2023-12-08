@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
+    <xacro:arg name="arm_id_1" default="panda_1"/>
+    <xacro:arg name="arm_id_2" default="panda_2"/>
+    <xacro:arg name="hand_1" default="panda_hand"/>
+    <xacro:arg name="hand_2" default="panda_hand"/>
+
+    <xacro:property name="hand_1" value="$(arg hand_1)"/>
+    <xacro:property name="hand_2" value="$(arg hand_2)"/>
+
+    <!-- Load source xacros -->
+    <xacro:include filename="$(find mmint_franka_description)/robots/materials.xacro"/>
+    <xacro:include filename="$(find franka_description)/robots/common/franka_arm.xacro"/>
+    <xacro:include filename="$(find mmint_franka_description)/robots/hands/$(arg hand_1).xacro"/>
+    <xacro:unless value="${hand_1 == hand_2}">
+        <xacro:include filename="$(find mmint_franka_description)/robots/hands/$(arg hand_2).xacro"/>
+    </xacro:unless>
+
+    <!-- box shaped table as base for the 2 Pandas -->
+    <link name="base">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.3"/>
+            <geometry>
+                <box size="0.9 1.215 0.6"/>
+            </geometry>
+            <material name="light_grey"/>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0.3"/>
+            <geometry>
+                <box size="0.9 1.215 0.6"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="tabletop"/>
+    <joint name="world_to_table" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0.6"/>
+        <parent link="base"/>
+        <child link="tabletop"/>
+    </joint>
+
+    <!-- Load left arm -->
+    <xacro:franka_arm arm_id="$(arg arm_id_1)" connected_to="base" xyz="0.037 0.43679292 0.59545591"
+                      rpy="0.03937728 -0.01732322 -1.53788624"
+                      joint_limits="${xacro.load_yaml('$(find franka_description)/robots/panda/joint_limits.yaml')}"/>
+
+    <xacro:if value="${hand_1 == 'panda_hand'}">
+        <xacro:panda_hand ns="$(arg arm_id_1)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_1)_link8"/>
+    </xacro:if>
+    <xacro:if value="${hand_1 == 'panda_gelslim'}">
+        <xacro:panda_gelslim ns="$(arg arm_id_1)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_1)_link8"/>
+    </xacro:if>
+    <xacro:if value="${hand_1 == 'panda_ft'}">
+        <xacro:panda_ft ns="$(arg arm_id_1)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_1)_link8"/>
+    </xacro:if>
+
+
+    <!-- Load right arm -->
+    <xacro:franka_arm arm_id="$(arg arm_id_2)" connected_to="base" xyz="-0.2815 0.0 0.6" rpy="0 0 0"
+                      joint_limits="${xacro.load_yaml('$(find franka_description)/robots/panda/joint_limits.yaml')}"/>
+
+    <xacro:if value="${hand_2 == 'panda_hand'}">
+        <xacro:panda_hand ns="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8"/>
+    </xacro:if>
+    <xacro:if value="${hand_2 == 'panda_gelslim'}">
+        <xacro:panda_gelslim ns="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8"/>
+    </xacro:if>
+    <xacro:if value="${hand_2 == 'panda_ft'}">
+        <xacro:panda_ft ns="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8"/>
+    </xacro:if>
+
+</robot>
