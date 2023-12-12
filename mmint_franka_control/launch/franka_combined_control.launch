@@ -57,12 +57,14 @@
         <group if="$(arg panda_1_gripper)" ns="panda_1">
             <include file="$(find franka_gripper)/launch/franka_gripper.launch">
                 <arg name="robot_ip" value="192.168.1.22"/>
+                <arg name="arm_id" value="panda_1"/>
             </include>
         </group>
 
         <group if="$(arg panda_2_gripper)" ns="panda_2">
             <include file="$(find franka_gripper)/launch/franka_gripper.launch">
                 <arg name="robot_ip" value="192.168.1.23"/>
+                <arg name="arm_id" value="panda_2"/>
             </include>
         </group>
     </group>
