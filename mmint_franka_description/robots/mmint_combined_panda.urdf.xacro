@@ -40,8 +40,8 @@
     </joint>
 
     <!-- Load left arm -->
-    <xacro:franka_arm arm_id="$(arg arm_id_1)" connected_to="base" xyz="0.037 0.43679292 0.59545591"
-                      rpy="0.03937728 -0.01732322 -1.53788624"
+    <xacro:franka_arm arm_id="$(arg arm_id_1)" connected_to="base" xyz="0.0 0.4425 0.6"
+                      rpy="0.0 0.0 -1.57079633"
                       joint_limits="${xacro.load_yaml('$(find franka_description)/robots/panda/joint_limits.yaml')}"/>
 
     <xacro:if value="${hand_1 == 'panda_hand'}">
