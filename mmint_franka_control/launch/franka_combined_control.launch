@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <launch>
 
-    <arg name="panda_1_gripper" default="true"/>
-    <arg name="panda_2_gripper" default="true"/>
+    <arg name="panda_1_hand" default="panda_hand"/>
+    <arg name="panda_2_hand" default="panda_hand"/>
 
     <!-- The path to a robot description (xacro) file to control -->
     <arg name="robot" default="$(find mmint_franka_description)/robots/mmint_combined_panda.urdf.xacro"/>
@@ -38,7 +38,8 @@
         <rosparam command="load" file="$(arg hw_config_file)"/>
         <!-- Add or overwrite manually configured ips -->
         <rosparam subst_value="True">$(arg robot_ips)</rosparam>
-        <param name="robot_description" command="xacro $(arg robot) $(arg args)"/>
+        <param name="robot_description"
+               command="xacro $(arg robot) hand_1:=$(arg panda_1_hand) hand_2:=$(arg panda_2_hand) $(arg args)"/>
     </node>
 
     <group ns="$(arg robot_id)">
@@ -49,19 +50,20 @@
 
         <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen"/>
         <node name="joint_state_publisher" type="joint_state_publisher" pkg="joint_state_publisher" output="screen">
-            <param name="robot_description" command="xacro $(arg robot) $(arg args)"/>
+            <param name="robot_description"
+                   command="xacro $(arg robot) hand_1:=$(arg panda_1_hand) hand_2:=$(arg panda_2_hand) $(arg args)"/>
             <rosparam param="source_list" subst_value="true">$(arg joint_states_source_list)</rosparam>
             <param name="rate" value="30"/>
         </node>
 
-        <group if="$(arg panda_1_gripper)" ns="panda_1">
+        <group if="$(eval arg('panda_1_hand') == 'panda_hand')" ns="panda_1">
             <include file="$(find franka_gripper)/launch/franka_gripper.launch">
                 <arg name="robot_ip" value="192.168.1.22"/>
                 <arg name="arm_id" value="panda_1"/>
             </include>
         </group>
 
-        <group if="$(arg panda_2_gripper)" ns="panda_2">
+        <group if="$(eval arg('panda_2_hand') == 'panda_hand')" ns="panda_2">
             <include file="$(find franka_gripper)/launch/franka_gripper.launch">
                 <arg name="robot_ip" value="192.168.1.23"/>
                 <arg name="arm_id" value="panda_2"/>

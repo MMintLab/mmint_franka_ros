@@ -17,14 +17,41 @@
     <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
-    <group name="$(arg arm_id_1)">
-        <chain base_link="$(arg arm_id_1)_link0" tip_link="$(arg arm_id_1)_gripper_origin"/>
-    </group>
 
-    <group name="$(arg arm_id_2)">
-        <chain base_link="$(arg arm_id_2)_link0" tip_link="$(arg arm_id_2)_gripper_origin"/>
-    </group>
+    <xacro:if value="${hand_1 == 'panda_hand' or hand_1 == 'panda_gelslim'}">
+        <group name="$(arg arm_id_1)">
+            <chain base_link="$(arg arm_id_1)_link0" tip_link="$(arg arm_id_1)_gripper_origin"/>
+        </group>
 
+        <group name="$(arg arm_id_2)">
+            <chain base_link="$(arg arm_id_2)_link0" tip_link="$(arg arm_id_2)_gripper_origin"/>
+        </group>
+    </xacro:if>
+
+    <xacro:if value="${hand_1 == 'panda_ft'}">
+        <group name="$(arg arm_id_1)">
+            <chain base_link="$(arg arm_id_1)_link0" tip_link="$(arg arm_id_1)_ft"/>
+        </group>
+
+        <group name="$(arg arm_id_2)">
+            <chain base_link="$(arg arm_id_2)_link0" tip_link="$(arg arm_id_2)_ft"/>
+        </group>
+    </xacro:if>
+
+    <xacro:unless value="${hand_1 == 'panda_hand' or hand_1 == 'panda_gelslim' or hand_1 == 'panda_ft'}">
+        <group name="$(arg arm_id_1)">
+            <chain base_link="$(arg arm_id_1)_link0" tip_link="$(arg arm_id_1)_link8"/>
+        </group>
+
+        <group name="$(arg arm_id_2)">
+            <chain base_link="$(arg arm_id_2)_link0" tip_link="$(arg arm_id_2)_link8"/>
+        </group>
+    </xacro:unless>
+
+    <group name="combined_panda">
+        <group name="$(arg arm_id_1)"/>
+        <group name="$(arg arm_id_2)"/>
+    </group>
 
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <!-- Disable collisions for each hand type -->

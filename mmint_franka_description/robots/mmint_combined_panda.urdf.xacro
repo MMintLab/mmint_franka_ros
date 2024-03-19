@@ -11,10 +11,12 @@
     <!-- Load source xacros -->
     <xacro:include filename="$(find mmint_franka_description)/robots/materials.xacro"/>
     <xacro:include filename="$(find franka_description)/robots/common/franka_arm.xacro"/>
-    <xacro:include filename="$(find mmint_franka_description)/robots/hands/$(arg hand_1).xacro"/>
-    <xacro:unless value="${hand_1 == hand_2}">
-        <xacro:include filename="$(find mmint_franka_description)/robots/hands/$(arg hand_2).xacro"/>
-    </xacro:unless>
+    <xacro:if value="${hand_1 != 'none'}">
+        <xacro:include filename="$(find mmint_franka_description)/robots/hands/$(arg hand_1).xacro"/>
+        <xacro:unless value="${hand_1 == hand_2}">
+            <xacro:include filename="$(find mmint_franka_description)/robots/hands/$(arg hand_2).xacro"/>
+        </xacro:unless>
+    </xacro:if>
 
     <!-- box shaped table as base for the 2 Pandas -->
     <link name="base">
