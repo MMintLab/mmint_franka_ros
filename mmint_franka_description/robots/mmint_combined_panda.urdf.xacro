@@ -68,7 +68,7 @@
         <xacro:panda_gelslim ns="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8"/>
     </xacro:if>
     <xacro:if value="${hand_2 == 'gamma'}">
-        <xacro:gamma ns="$(arg arm_id_1)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_1)_link8"/>
+        <xacro:gamma ns="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8"/>
     </xacro:if>
 
 </robot>
