@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda_hand">
+    <xacro:macro name="gamma" params="connected_to:='' ns:='' rpy:='0 0 0' xyz:='0 0 0'">
+        <xacro:unless value="${connected_to == ''}">
+            <joint name="${ns}_ft_joint" type="fixed">
+                <parent link="${connected_to}"/>
+                <child link="${ns}_ft"/>
+                <origin xyz="${xyz}" rpy="${rpy}"/>
+            </joint>
+        </xacro:unless>
+
+        <link name="${ns}_ft">
+            <visual>
+                <geometry>
+                    <mesh filename="package://mmint_franka_description/meshes/visual/gamma_insert.stl"/>
+                </geometry>
+                <material name="grey"/>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://mmint_franka_description/meshes/collision/gamma_insert.stl"/>
+                </geometry>
+            </collision>
+        </link>
+        <link name="${ns}_ft_origin"/>
+        <joint name="${ns}_ft_origin_joint" type="fixed">
+            <parent link="${ns}_ft"/>
+            <child link="${ns}_ft_origin"/>
+            <origin xyz="0 0 0.0408" rpy="0 0 0"/>
+        </joint>
+    </xacro:macro>
+</robot>
