@@ -11,12 +11,10 @@
     <!-- Load source xacros -->
     <xacro:include filename="$(find mmint_franka_description)/robots/materials.xacro"/>
     <xacro:include filename="$(find franka_description)/robots/common/franka_arm.xacro"/>
-    <xacro:if value="${hand_1 != 'none'}">
-        <xacro:include filename="$(find mmint_franka_description)/robots/hands/$(arg hand_1).xacro"/>
-        <xacro:unless value="${hand_1 == hand_2}">
-            <xacro:include filename="$(find mmint_franka_description)/robots/hands/$(arg hand_2).xacro"/>
-        </xacro:unless>
-    </xacro:if>
+    <xacro:include filename="$(find mmint_franka_description)/robots/hands/gamma.xacro"/>
+    <xacro:include filename="$(find mmint_franka_description)/robots/hands/panda_hand.xacro"/>
+    <xacro:include filename="$(find mmint_franka_description)/robots/hands/panda_gelslim.xacro"/>
+    <xacro:include filename="$(find mmint_franka_description)/robots/hands/sponge_eef.xacro"/>
 
     <!-- box shaped table as base for the 2 Pandas -->
     <link name="base">
@@ -55,6 +53,14 @@
     <xacro:if value="${hand_1 == 'gamma'}">
         <xacro:gamma ns="$(arg arm_id_1)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_1)_link8"/>
     </xacro:if>
+    <xacro:if value="${hand_1 == 'sponge_eef'}">
+        <xacro:sponge_eef ns="$(arg arm_id_1)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_1)_link8"
+                          extend="${False}"/>
+    </xacro:if>
+    <xacro:if value="${hand_1 == 'sponge_eef_extend'}">
+        <xacro:sponge_eef ns="$(arg arm_id_1)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_1)_link8"
+                          extend="${True}"/>
+    </xacro:if>
 
 
     <!-- Load right arm -->
@@ -69,6 +75,14 @@
     </xacro:if>
     <xacro:if value="${hand_2 == 'gamma'}">
         <xacro:gamma ns="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8"/>
+    </xacro:if>
+    <xacro:if value="${hand_2 == 'sponge_eef'}">
+        <xacro:sponge_eef ns="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8"
+                          extend="${False}"/>
+    </xacro:if>
+    <xacro:if value="${hand_2 == 'sponge_eef_extend'}">
+        <xacro:sponge_eef ns="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8"
+                          extend="${True}"/>
     </xacro:if>
 
 </robot>

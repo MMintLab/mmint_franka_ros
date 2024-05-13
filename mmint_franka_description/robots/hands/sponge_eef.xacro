@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="sponge_eef">
+    <xacro:macro name="sponge_eef" params="connected_to:='' ns:='' rpy:='0 0 0' xyz:='0 0 0' extend:=${True}">
+        <xacro:unless value="${connected_to == ''}">
+            <joint name="${ns}_ft_joint" type="fixed">
+                <parent link="${connected_to}"/>
+                <child link="${ns}_ft"/>
+                <origin xyz="${xyz}" rpy="${rpy}"/>
+            </joint>
+        </xacro:unless>
+
+        <link name="${ns}_ft">
+            <visual>
+                <geometry>
+                    <mesh filename="package://mmint_franka_description/meshes/visual/gamma_insert_v2.stl"/>
+                </geometry>
+                <material name="grey"/>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://mmint_franka_description/meshes/collision/gamma_insert_v2.stl"/>
+                </geometry>
+            </collision>
+        </link>
+        <link name="${ns}_ft_origin"/>
+        <joint name="${ns}_ft_origin_joint" type="fixed">
+            <parent link="${ns}_ft"/>
+            <child link="${ns}_ft_origin"/>
+            <origin xyz="0 0 0.0408" rpy="0 0 0"/>
+        </joint>
+
+        <link name="${ns}_mount">
+            <visual>
+                <geometry>
+                    <mesh filename="package://mmint_franka_description/meshes/visual/sponge_mount_v2.stl"/>
+                </geometry>
+                <material name="grey"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0.018"/>
+                <geometry>
+                    <cylinder radius="0.03" length="0.036"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <xacro:if value="${extend}">
+            <link name="${ns}_mount_extend">
+                <visual>
+                    <geometry>
+                        <mesh filename="package://mmint_franka_description/meshes/visual/mount_extend_v2.stl"/>
+                    </geometry>
+                    <material name="grey"/>
+                </visual>
+                <collision>
+                    <geometry>
+                        <mesh filename="package://mmint_franka_description/meshes/collision/mount_extend_v2.stl"/>
+                    </geometry>
+                </collision>
+            </link>
+
+            <joint name="${ns}_mount_extend_joint" type="fixed">
+                <parent link="${ns}_ft_origin"/>
+                <child link="${ns}_mount_extend"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </joint>
+            <joint name="${ns}_mount_joint" type="fixed">
+                <parent link="${ns}_mount_extend"/>
+                <child link="${ns}_mount"/>
+                <origin xyz="0.01333 0 0.05219" rpy="0.0 0.7853981609493879 0.0"/>
+            </joint>
+        </xacro:if>
+        <xacro:unless value="${extend}">
+            <joint name="${ns}_mount_joint" type="fixed">
+                <parent link="${ns}_ft_origin"/>
+                <child link="${ns}_mount"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </joint>
+        </xacro:unless>
+
+        <link name="${ns}_sponge"/>
+        <joint name="${ns}_mount_sponge_joint" type="fixed">
+            <parent link="${ns}_mount"/>
+            <child link="${ns}_sponge"/>
+            <origin xyz="0 0 0.036" rpy="0 0 0"/>
+        </joint>
+
+    </xacro:macro>
+</robot>
