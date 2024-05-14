@@ -38,8 +38,8 @@
     -->
 
     <arg name="load_robot_description" default="false"/>
-    <arg name="hand_1" default="panda_hand"/>
-    <arg name="hand_2" default="panda_hand"/>
+    <arg name="panda_1_hand" default="panda_hand"/>
+    <arg name="panda_2_hand" default="panda_hand"/>
 
     <group ns="combined_panda">
         <!-- load URDF, SRDF and joint_limits configuration -->
