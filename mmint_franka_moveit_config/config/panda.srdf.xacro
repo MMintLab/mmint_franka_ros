@@ -68,6 +68,44 @@
         <group name="$(arg arm_id_2)"/>
     </group>
 
+    <!--  Define some useful group positions  -->
+    <group_state name="ready" group="$(arg arm_id_1)">
+        <joint name="$(arg arm_id_1)_joint1" value="0"/>
+        <joint name="$(arg arm_id_1)_joint2" value="${-3*pi/8}"/>
+        <joint name="$(arg arm_id_1)_joint3" value="0"/>
+        <joint name="$(arg arm_id_1)_joint4" value="${-7*pi/8}"/>
+        <joint name="$(arg arm_id_1)_joint5" value="0"/>
+        <joint name="$(arg arm_id_1)_joint6" value="${pi/2}"/>
+        <joint name="$(arg arm_id_1)_joint7" value="${pi/4}"/>
+    </group_state>
+
+    <group_state name="ready" group="$(arg arm_id_2)">
+        <joint name="$(arg arm_id_2)_joint1" value="0"/>
+        <joint name="$(arg arm_id_2)_joint2" value="${-3*pi/8}"/>
+        <joint name="$(arg arm_id_2)_joint3" value="0"/>
+        <joint name="$(arg arm_id_2)_joint4" value="${-7*pi/8}"/>
+        <joint name="$(arg arm_id_2)_joint5" value="0"/>
+        <joint name="$(arg arm_id_2)_joint6" value="${pi/2}"/>
+        <joint name="$(arg arm_id_2)_joint7" value="${pi/4}"/>
+    </group_state>
+
+    <group_state name="ready" group="combined_panda">
+        <joint name="$(arg arm_id_1)_joint1" value="0"/>
+        <joint name="$(arg arm_id_1)_joint2" value="${-3*pi/8}"/>
+        <joint name="$(arg arm_id_1)_joint3" value="0"/>
+        <joint name="$(arg arm_id_1)_joint4" value="${-7*pi/8}"/>
+        <joint name="$(arg arm_id_1)_joint5" value="0"/>
+        <joint name="$(arg arm_id_1)_joint6" value="${pi/2}"/>
+        <joint name="$(arg arm_id_1)_joint7" value="${pi/4}"/>
+        <joint name="$(arg arm_id_2)_joint1" value="0"/>
+        <joint name="$(arg arm_id_2)_joint2" value="${-3*pi/8}"/>
+        <joint name="$(arg arm_id_2)_joint3" value="0"/>
+        <joint name="$(arg arm_id_2)_joint4" value="${-7*pi/8}"/>
+        <joint name="$(arg arm_id_2)_joint5" value="0"/>
+        <joint name="$(arg arm_id_2)_joint6" value="${pi/2}"/>
+        <joint name="$(arg arm_id_2)_joint7" value="${pi/4}"/>
+    </group_state>
+
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
 
     <xacro:macro name="disable_collisions_for" params="link:=^ others:=^">
@@ -105,7 +143,9 @@
 
     <!-- Handle collision settings within each arm -->
     <xacro:configure_collisions arm_id="panda_1" other_arm_id="panda_2" link="0" enabled="${[5,6,7]}"/>
+    <disable_collisions link1="panda_1_link0_sc" link2="base" reason="Never"/>
     <xacro:configure_collisions arm_id="panda_1" other_arm_id="panda_2" link="1" enabled="${[5,6,7]}"/>
+    <disable_collisions link1="panda_1_link1_sc" link2="base" reason="Never"/>
     <xacro:configure_collisions arm_id="panda_1" other_arm_id="panda_2" link="2" enabled="${[5,6,7]}"/>
     <xacro:configure_collisions arm_id="panda_1" other_arm_id="panda_2" link="3" enabled="${[7]}"/>
     <xacro:configure_collisions arm_id="panda_1" other_arm_id="panda_2" link="4"/>
@@ -114,7 +154,9 @@
     <xacro:configure_collisions arm_id="panda_1" other_arm_id="panda_2" link="7"/>
 
     <xacro:configure_collisions arm_id="panda_2" other_arm_id="panda_1" link="0" enabled="${[5,6,7]}"/>
+    <disable_collisions link1="panda_2_link0_sc" link2="base" reason="Never"/>
     <xacro:configure_collisions arm_id="panda_2" other_arm_id="panda_1" link="1" enabled="${[5,6,7]}"/>
+    <disable_collisions link1="panda_2_link1_sc" link2="base" reason="Never"/>
     <xacro:configure_collisions arm_id="panda_2" other_arm_id="panda_1" link="2" enabled="${[5,6,7]}"/>
     <xacro:configure_collisions arm_id="panda_2" other_arm_id="panda_1" link="3" enabled="${[7]}"/>
     <xacro:configure_collisions arm_id="panda_2" other_arm_id="panda_1" link="4"/>
