@@ -2,14 +2,27 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda_hand">
     <xacro:include filename="$(find mmint_franka_description)/robots/hands/gamma.xacro"/>
 
-    <xacro:macro name="panda_hand" params="connected_to:='' ns:='' rpy:='0 0 0' xyz:='0 0 0'">
-        <xacro:gamma ns="${ns}" connected_to="${connected_to}" rpy="${rpy}" xyz="${xyz}"/>
+    <xacro:macro name="panda_hand" params="connected_to:='' ns:='' rpy:='0 0 0' xyz:='0 0 0' link:='gamma'">
 
-        <joint name="${ns}_hand_joint" type="fixed">
-            <parent link="${ns}_ft_origin"/>
-            <child link="${ns}_hand"/>
-            <origin xyz="0 0 0.0079" rpy="0 0 0"/>
-        </joint>
+        <xacro:if value="${link == 'gamma'}">
+            <xacro:gamma ns="${ns}" connected_to="${connected_to}" rpy="${rpy}" xyz="${xyz}"/>
+
+            <joint name="${ns}_hand_joint" type="fixed">
+                <parent link="${ns}_ft_origin"/>
+                <child link="${ns}_hand"/>
+                <origin xyz="0 0 0.0079" rpy="0 0 0"/>
+            </joint>
+        </xacro:if>
+        <xacro:unless value="${link == 'gamma'}">
+            <joint name="${ns}_hand_joint" type="fixed">
+                <parent link="${connected_to}"/>
+                <child link="${ns}_hand"/>
+                <origin xyz="${xyz}" rpy="${rpy}"/>
+            </joint>
+        </xacro:unless>
+        <!--        <xacro:gamma ns="${ns}" connected_to="${connected_to}" rpy="${rpy}" xyz="${xyz}"/>-->
+
+
         <link name="${ns}_hand">
             <visual>
                 <geometry>

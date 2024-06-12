@@ -19,7 +19,7 @@
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
 
     <!--  Depending on selected hands, setup the kinematic chain accordingly.  -->
-    <xacro:if value="${hand_1 == 'panda_hand' or hand_1 == 'panda_gelslim'}">
+    <xacro:if value="${hand_1 == 'panda_hand' or hand_1 == 'panda_hand_no_gamma' or hand_1 == 'panda_gelslim'}">
         <group name="$(arg arm_id_1)">
             <chain base_link="$(arg arm_id_1)_link0" tip_link="$(arg arm_id_1)_gripper_origin"/>
         </group>
@@ -35,13 +35,13 @@
         </group>
     </xacro:if>
     <xacro:unless
-            value="${hand_1 == 'panda_hand' or hand_1 == 'panda_gelslim' or hand_1 == 'gamma' or hand_1 == 'sponge_eef' or hand_1 == 'sponge_eef_extend'}">
+            value="${hand_1 == 'panda_hand' or hand_1 == 'panda_hand_no_gamma' or hand_1 == 'panda_gelslim' or hand_1 == 'gamma' or hand_1 == 'sponge_eef' or hand_1 == 'sponge_eef_extend'}">
         <group name="$(arg arm_id_1)">
             <chain base_link="$(arg arm_id_1)_link0" tip_link="$(arg arm_id_1)_link8"/>
         </group>
     </xacro:unless>
 
-    <xacro:if value="${hand_2 == 'panda_hand' or hand_2 == 'panda_gelslim'}">
+    <xacro:if value="${hand_2 == 'panda_hand' or hand_2 == 'panda_hand_no_gamma' or hand_2 == 'panda_gelslim'}">
         <group name="$(arg arm_id_2)">
             <chain base_link="$(arg arm_id_2)_link0" tip_link="$(arg arm_id_2)_gripper_origin"/>
         </group>
@@ -57,7 +57,7 @@
         </group>
     </xacro:if>
     <xacro:unless
-            value="${hand_2 == 'panda_hand' or hand_2 == 'panda_gelslim' or hand_2 == 'gamma' or hand_1 == 'sponge_eef' or hand_1 == 'sponge_eef_extend'}">
+            value="${hand_2 == 'panda_hand' or hand_2 == 'panda_hand_no_gamma' or hand_2 == 'panda_gelslim' or hand_2 == 'gamma' or hand_1 == 'sponge_eef' or hand_1 == 'sponge_eef_extend'}">
         <group name="$(arg arm_id_2)">
             <chain base_link="$(arg arm_id_2)_link0" tip_link="$(arg arm_id_2)_link8"/>
         </group>
@@ -173,6 +173,13 @@
         <disable_collisions link1="$(arg arm_id_1)_leftfinger" link2="$(arg arm_id_1)_rightfinger" reason="Default"/>
     </xacro:if>
 
+    <xacro:if value="${hand_1 == 'panda_hand_no_gamma'}">
+        <disable_collisions link1="$(arg arm_id_1)_hand" link2="$(arg arm_id_1)_link7_sc" reason="Adjacent"/>
+        <disable_collisions link1="$(arg arm_id_1)_hand" link2="$(arg arm_id_1)_leftfinger" reason="Adjacent"/>
+        <disable_collisions link1="$(arg arm_id_1)_hand" link2="$(arg arm_id_1)_rightfinger" reason="Adjacent"/>
+        <disable_collisions link1="$(arg arm_id_1)_leftfinger" link2="$(arg arm_id_1)_rightfinger" reason="Default"/>
+    </xacro:if>
+
     <xacro:if value="${hand_1 == 'gamma'}">
         <disable_collisions link1="$(arg arm_id_1)_ft" link2="$(arg arm_id_1)_link7_sc" reason="Adjacent"/>
     </xacro:if>
@@ -190,6 +197,13 @@
     <xacro:if value="${hand_2 == 'panda_hand' or hand_2 == 'panda_gelslim'}">
         <disable_collisions link1="$(arg arm_id_2)_hand" link2="$(arg arm_id_2)_ft" reason="Adjacent"/>
         <disable_collisions link1="$(arg arm_id_2)_ft" link2="$(arg arm_id_2)_link7_sc" reason="Adjacent"/>
+        <disable_collisions link1="$(arg arm_id_2)_hand" link2="$(arg arm_id_2)_leftfinger" reason="Adjacent"/>
+        <disable_collisions link1="$(arg arm_id_2)_hand" link2="$(arg arm_id_2)_rightfinger" reason="Adjacent"/>
+        <disable_collisions link1="$(arg arm_id_2)_leftfinger" link2="$(arg arm_id_2)_rightfinger" reason="Default"/>
+    </xacro:if>
+
+    <xacro:if value="${hand_2 == 'panda_hand_no_gamma'}">
+        <disable_collisions link1="$(arg arm_id_2)_hand" link2="$(arg arm_id_2)_link7_sc" reason="Adjacent"/>
         <disable_collisions link1="$(arg arm_id_2)_hand" link2="$(arg arm_id_2)_leftfinger" reason="Adjacent"/>
         <disable_collisions link1="$(arg arm_id_2)_hand" link2="$(arg arm_id_2)_rightfinger" reason="Adjacent"/>
         <disable_collisions link1="$(arg arm_id_2)_leftfinger" link2="$(arg arm_id_2)_rightfinger" reason="Default"/>
