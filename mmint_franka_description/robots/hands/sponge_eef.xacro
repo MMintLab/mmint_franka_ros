@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="sponge_eef">
-    <xacro:macro name="sponge_eef" params="connected_to:='' ns:='' rpy:='0 0 0' xyz:='0 0 0' extend:=${True}">
+    <xacro:macro name="sponge_eef"
+                 params="connected_to:='' ns:='' rpy:='0 0 0' xyz:='0 0 0' gamma_:=${True} extend:=${True}">
         <xacro:unless value="${connected_to == ''}">
             <joint name="${ns}_ft_joint" type="fixed">
                 <parent link="${connected_to}"/>
@@ -9,25 +10,48 @@
             </joint>
         </xacro:unless>
 
-        <link name="${ns}_ft">
-            <visual>
-                <geometry>
-                    <mesh filename="package://mmint_franka_description/meshes/visual/gamma_insert_v2.stl"/>
-                </geometry>
-                <material name="grey"/>
-            </visual>
-            <collision>
-                <geometry>
-                    <mesh filename="package://mmint_franka_description/meshes/collision/gamma_insert_v2.stl"/>
-                </geometry>
-            </collision>
-        </link>
-        <link name="${ns}_ft_origin"/>
-        <joint name="${ns}_ft_origin_joint" type="fixed">
-            <parent link="${ns}_ft"/>
-            <child link="${ns}_ft_origin"/>
-            <origin xyz="0 0 0.0408" rpy="0 0 0"/>
-        </joint>
+        <xacro:if value="${gamma_}">
+            <link name="${ns}_ft">
+                <visual>
+                    <geometry>
+                        <mesh filename="package://mmint_franka_description/meshes/visual/gamma_insert_v2.stl"/>
+                    </geometry>
+                    <material name="grey"/>
+                </visual>
+                <collision>
+                    <geometry>
+                        <mesh filename="package://mmint_franka_description/meshes/collision/gamma_insert_v2.stl"/>
+                    </geometry>
+                </collision>
+            </link>
+            <link name="${ns}_ft_origin"/>
+            <joint name="${ns}_ft_origin_joint" type="fixed">
+                <parent link="${ns}_ft"/>
+                <child link="${ns}_ft_origin"/>
+                <origin xyz="0 0 0.0408" rpy="0 0 0"/>
+            </joint>
+        </xacro:if>
+        <xacro:unless value="${gamma_}">
+            <link name="${ns}_ft">
+                <visual>
+                    <geometry>
+                        <mesh filename="package://mmint_franka_description/meshes/visual/flange_adapter.stl" scale="0.001 0.001 0.001"/>
+                    </geometry>
+                    <material name="grey"/>
+                </visual>
+                <collision>
+                    <geometry>
+                        <mesh filename="package://mmint_franka_description/meshes/visual/flange_adapter.stl" scale="0.001 0.001 0.001"/>
+                    </geometry>
+                </collision>
+            </link>
+            <link name="${ns}_ft_origin"/>
+            <joint name="${ns}_ft_origin_joint" type="fixed">
+                <parent link="${ns}_ft"/>
+                <child link="${ns}_ft_origin"/>
+                <origin xyz="0 0 0.036" rpy="0 0 0"/>
+            </joint>
+        </xacro:unless>
 
         <link name="${ns}_mount">
             <visual>

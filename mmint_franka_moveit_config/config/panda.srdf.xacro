@@ -29,13 +29,13 @@
             <chain base_link="$(arg arm_id_1)_link0" tip_link="$(arg arm_id_1)_ft_origin"/>
         </group>
     </xacro:if>
-    <xacro:if value="${hand_1 == 'sponge_eef' or hand_1 == 'sponge_eef_extend'}">
+    <xacro:if value="${hand_1 == 'sponge_eef' or hand_1 == 'sponge_eef_extend' or hand_1 == 'sponge_eef_extend_no_gamma'}">
         <group name="$(arg arm_id_1)">
             <chain base_link="$(arg arm_id_1)_link0" tip_link="$(arg arm_id_1)_mount"/>
         </group>
     </xacro:if>
     <xacro:unless
-            value="${hand_1 == 'panda_hand' or hand_1 == 'panda_hand_no_gamma' or hand_1 == 'panda_gelslim' or hand_1 == 'gamma' or hand_1 == 'sponge_eef' or hand_1 == 'sponge_eef_extend'}">
+            value="${hand_1 == 'panda_hand' or hand_1 == 'panda_hand_no_gamma' or hand_1 == 'panda_gelslim' or hand_1 == 'gamma' or hand_1 == 'sponge_eef' or hand_1 == 'sponge_eef_extend' or hand_1 == 'sponge_eef_extend_no_gamma'}">
         <group name="$(arg arm_id_1)">
             <chain base_link="$(arg arm_id_1)_link0" tip_link="$(arg arm_id_1)_link8"/>
         </group>
@@ -51,13 +51,13 @@
             <chain base_link="$(arg arm_id_2)_link0" tip_link="$(arg arm_id_2)_ft_origin"/>
         </group>
     </xacro:if>
-    <xacro:if value="${hand_2 == 'sponge_eef' or hand_2 == 'sponge_eef_extend'}">
+    <xacro:if value="${hand_2 == 'sponge_eef' or hand_2 == 'sponge_eef_extend' or hand_2 == 'sponge_eef_extend_no_gamma'}">
         <group name="$(arg arm_id_2)">
             <chain base_link="$(arg arm_id_2)_link0" tip_link="$(arg arm_id_2)_mount"/>
         </group>
     </xacro:if>
     <xacro:unless
-            value="${hand_2 == 'panda_hand' or hand_2 == 'panda_hand_no_gamma' or hand_2 == 'panda_gelslim' or hand_2 == 'gamma' or hand_2 == 'sponge_eef' or hand_2 == 'sponge_eef_extend'}">
+            value="${hand_2 == 'panda_hand' or hand_2 == 'panda_hand_no_gamma' or hand_2 == 'panda_gelslim' or hand_2 == 'gamma' or hand_2 == 'sponge_eef' or hand_2 == 'sponge_eef_extend' or hand_2 == 'sponge_eef_extend_no_gamma'}">
         <group name="$(arg arm_id_2)">
             <chain base_link="$(arg arm_id_2)_link0" tip_link="$(arg arm_id_2)_link8"/>
         </group>
@@ -188,7 +188,7 @@
         <disable_collisions link1="$(arg arm_id_1)_ft" link2="$(arg arm_id_1)_link7_sc" reason="Adjacent"/>
         <disable_collisions link1="$(arg arm_id_1)_ft" link2="$(arg arm_id_1)_mount" reason="Adjacent"/>
     </xacro:if>
-    <xacro:if value="${hand_1 == 'sponge_eef_extend'}">
+    <xacro:if value="${hand_1 == 'sponge_eef_extend' or hand_1 == 'sponge_eef_extend_no_gamma'}">
         <disable_collisions link1="$(arg arm_id_1)_ft" link2="$(arg arm_id_1)_link7_sc" reason="Adjacent"/>
         <disable_collisions link1="$(arg arm_id_1)_ft" link2="$(arg arm_id_1)_mount_extend" reason="Adjacent"/>
         <disable_collisions link1="$(arg arm_id_1)_mount_extend" link2="$(arg arm_id_1)_mount" reason="Adjacent"/>
@@ -217,7 +217,7 @@
         <disable_collisions link1="$(arg arm_id_2)_ft" link2="$(arg arm_id_2)_link7_sc" reason="Adjacent"/>
         <disable_collisions link1="$(arg arm_id_2)_ft" link2="$(arg arm_id_2)_mount" reason="Adjacent"/>
     </xacro:if>
-    <xacro:if value="${hand_2 == 'sponge_eef_extend'}">
+    <xacro:if value="${hand_2 == 'sponge_eef_extend' or hand_2 == 'sponge_eef_extend_no_gamma'}">
         <disable_collisions link1="$(arg arm_id_2)_ft" link2="$(arg arm_id_2)_link7_sc" reason="Adjacent"/>
         <disable_collisions link1="$(arg arm_id_2)_ft" link2="$(arg arm_id_2)_mount_extend" reason="Adjacent"/>
         <disable_collisions link1="$(arg arm_id_2)_mount_extend" link2="$(arg arm_id_2)_mount" reason="Adjacent"/>

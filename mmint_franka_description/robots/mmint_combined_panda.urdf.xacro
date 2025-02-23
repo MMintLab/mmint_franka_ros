@@ -64,6 +64,10 @@
         <xacro:sponge_eef ns="$(arg arm_id_1)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_1)_link8"
                           extend="${True}"/>
     </xacro:if>
+    <xacro:if value="${hand_1 == 'sponge_eef_extend_no_gamma'}">
+        <xacro:sponge_eef ns="$(arg arm_id_1)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_1)_link8" extend="${True}"
+                          gamma_="${False}"/>
+    </xacro:if>
 
 
     <!-- Load right arm -->
@@ -89,6 +93,10 @@
     <xacro:if value="${hand_2 == 'sponge_eef_extend'}">
         <xacro:sponge_eef ns="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8"
                           extend="${True}"/>
+    </xacro:if>
+    <xacro:if value="${hand_2 == 'sponge_eef_extend_no_gamma'}">
+        <xacro:sponge_eef ns="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8" extend="${True}"
+                          gamma_="${False}"/>
     </xacro:if>
 
 </robot>
