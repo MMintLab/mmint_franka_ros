@@ -57,7 +57,7 @@
         </group>
     </xacro:if>
     <xacro:unless
-            value="${hand_2 == 'panda_hand' or hand_2 == 'panda_hand_no_gamma' or hand_2 == 'panda_gelslim' or hand_2 == 'gamma' or hand_1 == 'sponge_eef' or hand_1 == 'sponge_eef_extend'}">
+            value="${hand_2 == 'panda_hand' or hand_2 == 'panda_hand_no_gamma' or hand_2 == 'panda_gelslim' or hand_2 == 'gamma' or hand_2 == 'sponge_eef' or hand_2 == 'sponge_eef_extend'}">
         <group name="$(arg arm_id_2)">
             <chain base_link="$(arg arm_id_2)_link0" tip_link="$(arg arm_id_2)_link8"/>
         </group>
