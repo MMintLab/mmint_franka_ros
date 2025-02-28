@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
+    <xacro:arg name="arm_id" default="panda_1"/>
+    <xacro:arg name="hand" default="panda_hand"/>
+    <xacro:arg name="arm_xyz_base" default="0 0.4425 0.6"/>
+    <xacro:arg name="arm_rpy_base" default="0.0 0.0 -1.57079633"/>
+
+    <xacro:property name="hand" value="$(arg hand)"/>
+
+    <!-- Load source xacros -->
+    <xacro:include filename="$(find mmint_franka_description)/robots/materials.xacro"/>
+    <xacro:include filename="$(find franka_description)/robots/common/franka_arm.xacro"/>
+    <xacro:include filename="$(find mmint_franka_description)/robots/hands/gamma.xacro"/>
+    <xacro:include filename="$(find mmint_franka_description)/robots/hands/panda_hand.xacro"/>
+    <xacro:include filename="$(find mmint_franka_description)/robots/hands/panda_gelslim.xacro"/>
+    <xacro:include filename="$(find mmint_franka_description)/robots/hands/sponge_eef.xacro"/>
+
+    <!-- box shaped table as base for the 2 Pandas -->
+    <link name="base">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.3"/>
+            <geometry>
+                <box size="0.9 1.215 0.6"/>
+            </geometry>
+            <material name="light_grey"/>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0.3"/>
+            <geometry>
+                <box size="0.9 1.215 0.6"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="tabletop"/>
+    <joint name="world_to_table" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0.6"/>
+        <parent link="base"/>
+        <child link="tabletop"/>
+    </joint>
+
+    <!-- Load arm -->
+    <xacro:franka_arm arm_id="$(arg arm_id)" connected_to="base" xyz="$(arg arm_xyz_base)" rpy="$(arg arm_rpy_base)"
+                      joint_limits="${xacro.load_yaml('$(find franka_description)/robots/panda/joint_limits.yaml')}"/>
+
+    <xacro:if value="${hand == 'panda_hand'}">
+        <xacro:panda_hand ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8"/>
+    </xacro:if>
+    <xacro:if value="${hand == 'panda_hand_no_gamma'}">
+        <xacro:panda_hand ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8" link="no_gamma"/>
+    </xacro:if>
+    <xacro:if value="${hand == 'panda_gelslim'}">
+        <xacro:panda_gelslim ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8"/>
+    </xacro:if>
+    <xacro:if value="${hand == 'gamma'}">
+        <xacro:gamma ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8"/>
+    </xacro:if>
+    <xacro:if value="${hand == 'sponge_eef'}">
+        <xacro:sponge_eef ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8"
+                          extend="${False}"/>
+    </xacro:if>
+    <xacro:if value="${hand == 'sponge_eef_extend'}">
+        <xacro:sponge_eef ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8"
+                          extend="${True}"/>
+    </xacro:if>
+    <xacro:if value="${hand == 'sponge_eef_extend_no_gamma'}">
+        <xacro:sponge_eef ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8" extend="${True}"
+                          gamma_="${False}"/>
+    </xacro:if>
+
+</robot>

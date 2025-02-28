@@ -56,6 +56,7 @@
             <param name="rate" value="30"/>
         </node>
 
+        <!--   TODO: Avoid hard-coding namespaces, IPs, and arm_ids here     -->
         <group if="$(eval arg('panda_1_hand') == 'panda_hand')" ns="panda_1">
             <include file="$(find franka_gripper)/launch/franka_gripper.launch">
                 <arg name="robot_ip" value="192.168.1.22"/>
