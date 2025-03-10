@@ -58,6 +58,10 @@
         <xacro:sponge_eef ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8"
                           extend="${False}"/>
     </xacro:if>
+    <xacro:if value="${hand == 'sponge_eef_no_gamma'}">
+        <xacro:sponge_eef ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8" extend="${False}"
+                          gamma_="${False}"/>
+    </xacro:if>
     <xacro:if value="${hand == 'sponge_eef_extend'}">
         <xacro:sponge_eef ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8"
                           extend="${True}"/>

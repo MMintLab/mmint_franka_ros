@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
+    <xacro:arg name="arm_id" default="panda_1"/>
+    <xacro:arg name="hand" default="panda_hand"/>
+
+    <xacro:property name="hand" value="$(arg hand)"/>
+
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="$(arg arm_id)">
+        <chain base_link="$(arg arm_id)_link0" tip_link="$(arg arm_id)_mount"/>
+    </group>
+
+    <!--  Define some useful group positions  -->
+    <group_state name="ready" group="$(arg arm_id)">
+        <joint name="$(arg arm_id)_joint1" value="0"/>
+        <joint name="$(arg arm_id)_joint2" value="${-3*pi/8}"/>
+        <joint name="$(arg arm_id)_joint3" value="0"/>
+        <joint name="$(arg arm_id)_joint4" value="${-7*pi/8}"/>
+        <joint name="$(arg arm_id)_joint5" value="0"/>
+        <joint name="$(arg arm_id)_joint6" value="${pi/2}"/>
+        <joint name="$(arg arm_id)_joint7" value="${pi/4}"/>
+    </group_state>
+
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+
+    <xacro:macro name="disable_collisions_for" params="link:=^ others:=^">
+        <xacro:if value="${others}">
+            <xacro:property name="other" value="${others.pop(0)}"/>
+            <disable_collisions link1="${link}" link2="${other}" reason="Never"/>
+            <!-- recursively call -->
+            <xacro:disable_collisions_for/>
+        </xacro:if>
+    </xacro:macro>
+
+    <xacro:macro name="enable_collisions_for" params="link:=^ others:=^">
+        <xacro:if value="${others}">
+            <xacro:property name="other" value="${others.pop(0)}"/>
+            <enable_collisions link1="${link}" link2="${other}"/>
+            <!-- recursively call -->
+            <xacro:enable_collisions_for/>
+        </xacro:if>
+    </xacro:macro>
+
+    <xacro:macro name="configure_collisions" params="arm_id link enabled:=${[]}">
+        <!-- Disable collision checking between normal links, as these are handled by "sc" links -->
+        <disable_default_collisions link="${arm_id}_link${link}"/>
+
+        <!-- Disable all collision checking for ${link}_sc -->
+        <xacro:property name="link_fmt" value="${arm_id}_link{}_sc"/>
+        <xacro:disable_collisions_for link="${link_fmt.format(link)}"
+                                      others="${[link_fmt.format(i) for i in python.range(8)]}"/>
+        <!-- Re-enable collisions checking for selected links -->
+        <xacro:enable_collisions_for link="${link_fmt.format(link)}" others="${[link_fmt.format(i) for i in enabled]}"/>
+    </xacro:macro>
+
+    <!--  Handle collision settings.  -->
+    <xacro:configure_collisions arm_id="$(arg arm_id)" link="0" enabled="${[5, 6, 7]}"/>
+    <disable_collisions link1="$(arg arm_id)_link0_sc" link2="base" reason="Never"/>
+    <xacro:configure_collisions arm_id="$(arg arm_id)" link="1" enabled="${[5, 6, 7]}"/>
+    <disable_collisions link1="$(arg arm_id)_link1_sc" link2="base" reason="Never"/>
+    <xacro:configure_collisions arm_id="$(arg arm_id)" link="2" enabled="${[5,6,7]}"/>
+    <xacro:configure_collisions arm_id="$(arg arm_id)" link="3" enabled="${[7]}"/>
+    <xacro:configure_collisions arm_id="$(arg arm_id)" link="4"/>
+    <xacro:configure_collisions arm_id="$(arg arm_id)" link="5"/>
+    <xacro:configure_collisions arm_id="$(arg arm_id)" link="6"/>
+    <xacro:configure_collisions arm_id="$(arg arm_id)" link="7"/>
+
+    <xacro:if value="${hand == 'sponge_eef_extend_no_gamma'}">
+        <disable_collisions link1="$(arg arm_id)_ft" link2="$(arg arm_id)_link7_sc" reason="Adjacent"/>
+        <disable_collisions link1="$(arg arm_id)_ft" link2="$(arg arm_id)_mount_extend" reason="Adjacent"/>
+        <disable_collisions link1="$(arg arm_id)_mount_extend" link2="$(arg arm_id)_mount" reason="Adjacent"/>
+    </xacro:if>
+
+    <xacro:if value="${hand == 'sponge_eef_no_gamma'}">
+        <disable_collisions link1="$(arg arm_id)_ft" link2="$(arg arm_id)_link7_sc" reason="Adjacent"/>
+        <disable_collisions link1="$(arg arm_id)_ft" link2="$(arg arm_id)_mount" reason="Adjacent"/>
+    </xacro:if>
+
+</robot>
