@@ -12,7 +12,7 @@
     <arg name="robot" default="$(find mmint_franka_description)/robots/mmint_panda.urdf.xacro"/>
 
     <!--  Config file with parameters for hardware node  -->
-    <arg name="hw_config_file" default="$(find franka_control)/config/franka_control_node.yaml"/>
+    <arg name="hw_config_file" default="$(find mmint_franka_control)/config/franka_control_node.yaml"/>
 
     <!--  Controller parameterization file  -->
     <arg name="controller_file" default="$(find mmint_franka_control)/config/default_controllers.yaml"/>
