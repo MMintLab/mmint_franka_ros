@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda_hand">
-    <xacro:include filename="$(find mmint_franka_description)/robots/hands/gamma.xacro"/>
+    <!-- <xacro:include filename="$(find mmint_franka_description)/robots/hands/gamma.xacro"/> -->
 
     <xacro:macro name="panda_hand" params="connected_to:='' ns:='' rpy:='0 0 0' xyz:='0 0 0'">
-        <xacro:gamma ns="${ns}" connected_to="${connected_to}" rpy="${rpy}" xyz="${xyz}"/>
+        <!-- <xacro:gamma ns="${ns}" connected_to="${connected_to}" rpy="${rpy}" xyz="${xyz}"/> -->
 
         <joint name="${ns}_hand_joint" type="fixed">
-            <parent link="${ns}_ft_origin"/>
+            <parent link="${ns}_link8"/>
             <child link="${ns}_hand"/>
             <origin xyz="0 0 0.0079" rpy="0 0 0"/>
         </joint>

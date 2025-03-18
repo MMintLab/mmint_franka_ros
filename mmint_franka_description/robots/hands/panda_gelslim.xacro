@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda_gelslim">
-    <xacro:include filename="$(find mmint_franka_description)/robots/hands/gamma.xacro"/>
+    <!-- <xacro:include filename="$(find mmint_franka_description)/robots/hands/gamma.xacro"/> -->
 
     <xacro:macro name="panda_gelslim" params="connected_to:='' ns:='' rpy:='0 0 0' xyz:='0 0 0'">
-        <xacro:gamma ns="${ns}" connected_to="${connected_to}" rpy="${rpy}" xyz="${xyz}"/>
+        <!-- <xacro:gamma ns="${ns}" connected_to="${connected_to}" rpy="${rpy}" xyz="${xyz}"/> -->
 
         <joint name="${ns}_hand_joint" type="fixed">
-            <parent link="${ns}_ft_origin"/>
+            <parent link="${ns}_link8"/>
             <child link="${ns}_hand"/>
-            <origin xyz="0 0 0.0079" rpy="0 0 0"/>
+            <origin xyz="0 0 0.0079" rpy="0 0 ${-pi/4}"/>
         </joint>
         <link name="${ns}_hand">
             <visual>
@@ -24,31 +24,31 @@
         </link>
         <link name="${ns}_leftfinger">
             <visual>
-                <origin rpy="0 0 ${pi}" xyz="0 0.0127025082 0"/>
+                <origin rpy="0 ${pi/2} 0" xyz="-0.016 0 0.055"/>
                 <geometry>
-                    <mesh filename="package://mmint_franka_description/meshes/visual/gelslim_3mm.stl"/>
+                    <mesh scale="2.18216727e-9 2.18216727e-9 2.18216727e-9" filename="package://mmint_franka_description/meshes/visual/gelslim_backup.stl"/>
                 </geometry>
                 <material name="grey"/>
             </visual>
             <collision>
-                <origin rpy="0 0 ${pi}" xyz="0 0.0127025082 0"/>
+                <origin rpy="0 ${pi/2} 0" xyz="-0.016 0 0.055"/>
                 <geometry>
-                    <mesh filename="package://mmint_franka_description/meshes/collision/gelslim_3mm.stl"/>
+                    <mesh scale="2.18216727e-9 2.18216727e-9 2.18216727e-9" filename="package://mmint_franka_description/meshes/collision/gelslim_backup.stl"/>
                 </geometry>
             </collision>
         </link>
         <link name="${ns}_rightfinger">
             <visual>
-                <origin rpy="0 0 0" xyz="0 -0.0127025082 0"/>
+                <origin rpy="0 ${pi/2} ${pi}" xyz="0.016 0 0.055"/>
                 <geometry>
-                    <mesh filename="package://mmint_franka_description/meshes/visual/gelslim_3mm.stl"/>
+                    <mesh scale="2.18216727e-9 2.18216727e-9 2.18216727e-9" filename="package://mmint_franka_description/meshes/visual/gelslim_backup.stl"/>
                 </geometry>
                 <material name="grey"/>
             </visual>
             <collision>
-                <origin rpy="0 0 0" xyz="0 -0.0127025082 0"/>
+                <origin rpy="0 ${pi/2} ${pi}" xyz="0.016 0 0.055"/>
                 <geometry>
-                    <mesh filename="package://mmint_franka_description/meshes/collision/gelslim_3mm.stl"/>
+                    <mesh scale="2.18216727e-9 2.18216727e-9 2.18216727e-9" filename="package://mmint_franka_description/meshes/collision/gelslim_backup.stl"/>
                 </geometry>
             </collision>
         </link>
@@ -84,16 +84,16 @@
         <joint name="${ns}_left_gelpad" type="fixed">
             <parent link="${ns}_leftfinger"/>
             <child link="${ns}_left_gelpad_link"/>
-            <origin xyz="0 0 0.072" rpy="0 0 0"/>
+            <origin xyz="0 0 0.06" rpy="0 0 0"/>
         </joint>
         <joint name="${ns}_right_gelpad" type="fixed">
             <parent link="${ns}_rightfinger"/>
             <child link="${ns}_right_gelpad_link"/>
-            <origin xyz="0 0 0.072" rpy="0 0 0"/>
+            <origin xyz="0 0 0.06" rpy="0 0 0"/>
         </joint>
         <link name="${ns}_gripper_origin">
             <inertial>
-                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <origin rpy="0 0 0" xyz="0 0 -0.012"/>
                 <mass value="0.0"/>
                 <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
             </inertial>

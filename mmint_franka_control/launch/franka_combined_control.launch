@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <launch>
 
-    <arg name="panda_1_hand" default="panda_hand"/>
-    <arg name="panda_2_hand" default="panda_hand"/>
+    <arg name="panda_1_hand" default="panda_gelslim"/>
+    <arg name="panda_2_hand" default="panda_gelslim"/>
 
     <!-- The path to a robot description (xacro) file to control -->
     <arg name="robot" default="$(find mmint_franka_description)/robots/mmint_combined_panda.urdf.xacro"/>
@@ -56,14 +56,14 @@
             <param name="rate" value="30"/>
         </node>
 
-        <group if="$(eval arg('panda_1_hand') == 'panda_hand')" ns="panda_1">
+        <group if="$(eval arg('panda_1_hand') == 'panda_gelslim')" ns="panda_1">
             <include file="$(find franka_gripper)/launch/franka_gripper.launch">
                 <arg name="robot_ip" value="192.168.1.22"/>
                 <arg name="arm_id" value="panda_1"/>
             </include>
         </group>
 
-        <group if="$(eval arg('panda_2_hand') == 'panda_hand')" ns="panda_2">
+        <group if="$(eval arg('panda_2_hand') == 'panda_gelslim')" ns="panda_2">
             <include file="$(find franka_gripper)/launch/franka_gripper.launch">
                 <arg name="robot_ip" value="192.168.1.23"/>
                 <arg name="arm_id" value="panda_2"/>

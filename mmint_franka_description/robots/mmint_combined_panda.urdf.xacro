@@ -11,8 +11,8 @@
     <!-- Load source xacros -->
     <xacro:include filename="$(find mmint_franka_description)/robots/materials.xacro"/>
     <xacro:include filename="$(find franka_description)/robots/common/franka_arm.xacro"/>
-    <xacro:include filename="$(find mmint_franka_description)/robots/hands/gamma.xacro"/>
-    <xacro:include filename="$(find mmint_franka_description)/robots/hands/panda_hand.xacro"/>
+    <!-- <xacro:include filename="$(find mmint_franka_description)/robots/hands/gamma.xacro"/> -->
+    <!-- <xacro:include filename="$(find mmint_franka_description)/robots/hands/panda_hand.xacro"/> -->
     <xacro:include filename="$(find mmint_franka_description)/robots/hands/panda_gelslim.xacro"/>
 
     <!-- box shaped table as base for the 2 Pandas -->
@@ -49,9 +49,9 @@
     <xacro:if value="${hand_1 == 'panda_gelslim'}">
         <xacro:panda_gelslim ns="$(arg arm_id_1)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_1)_link8"/>
     </xacro:if>
-    <xacro:if value="${hand_1 == 'gamma'}">
+    <!-- <xacro:if value="${hand_1 == 'gamma'}">
         <xacro:gamma ns="$(arg arm_id_1)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_1)_link8"/>
-    </xacro:if>
+    </xacro:if> -->
 
 
     <!-- Load right arm -->
@@ -64,8 +64,8 @@
     <xacro:if value="${hand_2 == 'panda_gelslim'}">
         <xacro:panda_gelslim ns="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8"/>
     </xacro:if>
-    <xacro:if value="${hand_2 == 'gamma'}">
+    <!-- <xacro:if value="${hand_2 == 'gamma'}">
         <xacro:gamma ns="$(arg arm_id_2)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id_2)_link8"/>
-    </xacro:if>
+    </xacro:if> -->
 
 </robot>
