@@ -29,13 +29,13 @@ effort_joint_trajectory_controller:
     - $(arg arm_id)_joint6
     - $(arg arm_id)_joint7
   gains:
-    $(arg arm_id)_joint1: { p: 1600, d: 70, i: 0 }
-    $(arg arm_id)_joint2: { p: 1600, d: 70, i: 0 }
-    $(arg arm_id)_joint3: { p: 1600, d: 70, i: 0 }
-    $(arg arm_id)_joint4: { p: 1600, d: 70, i: 0 }
-    $(arg arm_id)_joint5: { p: 800, d: 20, i: 0 }
-    $(arg arm_id)_joint6: { p: 800, d: 20, i: 0 }
-    $(arg arm_id)_joint7: { p: 200, d: 10, i: 0 }
+    $(arg arm_id)_joint1: { p: 600, d: 30, i: 0 }
+    $(arg arm_id)_joint2: { p: 600, d: 30, i: 0 }
+    $(arg arm_id)_joint3: { p: 600, d: 30, i: 0 }
+    $(arg arm_id)_joint4: { p: 600, d: 30, i: 0 }
+    $(arg arm_id)_joint5: { p: 250, d: 10, i: 0 }
+    $(arg arm_id)_joint6: { p: 150, d: 10, i: 0 }
+    $(arg arm_id)_joint7: { p: 50, d: 5, i: 0 }
 #    $(arg arm_id)_joint1: { p: 100, d: 30, i: 0 }
 #    $(arg arm_id)_joint2: { p: 100, d: 30, i: 0 }
 #    $(arg arm_id)_joint3: { p: 100, d: 30, i: 0 }
