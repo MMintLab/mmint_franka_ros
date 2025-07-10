@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
     <xacro:arg name="arm_id" default="panda_1"/>
-    <xacro:arg name="hand" default="panda_hand"/>
+    <xacro:arg name="hand" default="panda_hand_no_gamma"/>
     <xacro:arg name="arm_xyz_base" default="0 0.4425 0.6"/>
     <xacro:arg name="arm_rpy_base" default="0.0 0.0 -1.57079633"/>
 

@@ -38,7 +38,7 @@
     -->
 
     <arg name="load_robot_description" default="false"/>
-    <arg name="panda_hand" default="sponge_eef_no_gamma"/>
+    <arg name="panda_hand" default="panda_hand_no_gamma"/>
     <!-- TODO: Add args for SRDF end effectors -->
 
     <group ns="combined_panda">

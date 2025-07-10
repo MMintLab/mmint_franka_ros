@@ -5,7 +5,7 @@
 -->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
     <xacro:arg name="arm_id" default="panda_1"/>
-    <xacro:arg name="hand" default="panda_hand"/>
+    <xacro:arg name="hand" default="panda_hand_no_gamma"/>
 
     <xacro:property name="hand" value="$(arg hand)"/>
 
@@ -15,7 +15,7 @@
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
     <group name="$(arg arm_id)">
-        <chain base_link="$(arg arm_id)_link0" tip_link="$(arg arm_id)_mount"/>
+        <chain base_link="$(arg arm_id)_link0" tip_link="$(arg arm_id)_link8"/>
     </group>
 
     <!--  Define some useful group positions  -->
@@ -83,7 +83,23 @@
     <xacro:configure_collisions arm_id="$(arg arm_id)" link="6"/>
     <xacro:configure_collisions arm_id="$(arg arm_id)" link="7"/>
 
-    <xacro:if value="${hand == 'sponge_eef_extend_no_gamma'}">
+    <!-- <disable_collisions link1="$(arg arm_id)_hand" link2="$(arg arm_id)_ft" reason="Adjacent"/> -->
+    <!-- <disable_collisions link1="$(arg arm_id)_ft" link2="$(arg arm_id)_link7_sc" reason="Adjacent"/> -->
+    <disable_collisions link1="$(arg arm_id)_hand" link2="$(arg arm_id)_link7_sc" reason="Adjacent"/>
+    <disable_collisions link1="$(arg arm_id)_hand" link2="$(arg arm_id)_leftfinger" reason="Adjacent"/>
+    <disable_collisions link1="$(arg arm_id)_hand" link2="$(arg arm_id)_rightfinger" reason="Adjacent"/>
+    <disable_collisions link1="$(arg arm_id)_leftfinger" link2="$(arg arm_id)_rightfinger" reason="Default"/>
+
+<!-- 
+    <xacro:if value="${hand == 'panda_hand' or hand == 'panda_gelslim'}">
+        <disable_collisions link1="$(arg arm_id)_hand" link2="$(arg arm_id)_ft" reason="Adjacent"/>
+        <disable_collisions link1="$(arg arm_id)_ft" link2="$(arg arm_id)_link7_sc" reason="Adjacent"/>
+        <disable_collisions link1="$(arg arm_id)_hand" link2="$(arg arm_id)_leftfinger" reason="Adjacent"/>
+        <disable_collisions link1="$(arg arm_id)_hand" link2="$(arg arm_id)_rightfinger" reason="Adjacent"/>
+        <disable_collisions link1="$(arg arm_id)_leftfinger" link2="$(arg arm_id)_rightfinger" reason="Default"/>
+    </xacro:if> -->
+
+    <!-- <xacro:if value="${hand == 'sponge_eef_extend_no_gamma'}">
         <disable_collisions link1="$(arg arm_id)_ft" link2="$(arg arm_id)_link7_sc" reason="Adjacent"/>
         <disable_collisions link1="$(arg arm_id)_ft" link2="$(arg arm_id)_mount_extend" reason="Adjacent"/>
         <disable_collisions link1="$(arg arm_id)_mount_extend" link2="$(arg arm_id)_mount" reason="Adjacent"/>
@@ -92,6 +108,6 @@
     <xacro:if value="${hand == 'sponge_eef_no_gamma'}">
         <disable_collisions link1="$(arg arm_id)_ft" link2="$(arg arm_id)_link7_sc" reason="Adjacent"/>
         <disable_collisions link1="$(arg arm_id)_ft" link2="$(arg arm_id)_mount" reason="Adjacent"/>
-    </xacro:if>
+    </xacro:if> -->
 
 </robot>
