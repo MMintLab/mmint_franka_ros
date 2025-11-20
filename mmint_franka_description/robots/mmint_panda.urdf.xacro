@@ -13,6 +13,7 @@
     <xacro:include filename="$(find mmint_franka_description)/robots/hands/gamma.xacro"/>
     <xacro:include filename="$(find mmint_franka_description)/robots/hands/panda_hand.xacro"/>
     <xacro:include filename="$(find mmint_franka_description)/robots/hands/panda_gelslim.xacro"/>
+    <xacro:include filename="$(find mmint_franka_description)/robots/hands/panda_gelsight.xacro"/>
     <xacro:include filename="$(find mmint_franka_description)/robots/hands/sponge_eef.xacro"/>
 
     <!-- box shaped table as base for the 2 Pandas -->
@@ -69,6 +70,12 @@
     <xacro:if value="${hand == 'sponge_eef_extend_no_gamma'}">
         <xacro:sponge_eef ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8" extend="${True}"
                           gamma_="${False}"/>
+    </xacro:if>
+    <xacro:if value="${hand == 'panda_gelsight'}">
+        <xacro:panda_gelsight ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8" link="gamma"/>
+    </xacro:if>
+    <xacro:if value="${hand == 'panda_gelsight_no_gamma'}">
+        <xacro:panda_gelsight ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8"/>
     </xacro:if>
 
 </robot>
