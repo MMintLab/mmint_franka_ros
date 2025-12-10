@@ -4,6 +4,7 @@
     <xacro:arg name="hand" default="panda_hand"/>
     <xacro:arg name="include_gamma" default="false"/>
     <xacro:arg name="include_wrist_camera" default="false"/>
+    <xacro:arg name="include_gelsight_inserts" default="false"/>
 
     <xacro:arg name="arm_xyz_base" default="0 0.4425 0.6"/>
     <xacro:arg name="arm_rpy_base" default="0.0 0.0 -1.57079633"/>
@@ -11,6 +12,7 @@
     <xacro:property name="hand" value="$(arg hand)"/>
     <xacro:property name="include_gamma" value="$(arg include_gamma)"/>
     <xacro:property name="include_wrist_camera" value="$(arg include_wrist_camera)"/>
+    <xacro:property name="include_gelsight_inserts" value="$(arg include_gelsight_inserts)"/>
 
     <!-- Load source xacros -->
     <xacro:include filename="$(find mmint_franka_description)/robots/materials.xacro"/>
@@ -97,14 +99,17 @@
     <xacro:if value="${hand == 'panda_gelsight'}">
         <xacro:if value="${include_gamma}">
             <xacro:if value="${include_wrist_camera}">
-                <xacro:panda_gelsight ns="$(arg arm_id)" connected_to="${connecting_link}"/>
+                <xacro:panda_gelsight ns="$(arg arm_id)" connected_to="${connecting_link}"
+                                      insert="${include_gelsight_inserts}"/>
             </xacro:if>
             <xacro:unless value="${include_wrist_camera}">
-                <xacro:panda_gelsight ns="$(arg arm_id)" xyz="0 0 0.0079" connected_to="${connecting_link}"/>
+                <xacro:panda_gelsight ns="$(arg arm_id)" xyz="0 0 0.0079" connected_to="${connecting_link}"
+                                      insert="${include_gelsight_inserts}"/>
             </xacro:unless>
         </xacro:if>
         <xacro:unless value="${include_gamma}">
-            <xacro:panda_gelsight ns="$(arg arm_id)" connected_to="${connecting_link}"/>
+            <xacro:panda_gelsight ns="$(arg arm_id)" connected_to="${connecting_link}"
+                                  insert="${include_gelsight_inserts}"/>
         </xacro:unless>
     </xacro:if>
 

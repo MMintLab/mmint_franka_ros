@@ -38,14 +38,17 @@
     -->
 
     <arg name="load_robot_description" default="false"/>
-    <arg name="panda_hand" default="sponge_eef_no_gamma"/>
-    <!-- TODO: Add args for SRDF end effectors -->
+    <arg name="hand" default="panda_hand"/>
+    <arg name="include_gamma" default="false"/>
+    <arg name="include_wrist_camera" default="false"/>
 
     <group ns="combined_panda">
         <!-- load URDF, SRDF and joint_limits configuration -->
         <include file="$(dirname)/planning_context.launch">
             <arg name="load_robot_description" value="$(arg load_robot_description)"/>
             <arg name="hand" value="$(arg panda_hand)"/>
+            <arg name="include_gamma" value="$(arg include_gamma)"/>
+            <arg name="include_wrist_camera" value="$(arg include_wrist_camera)"/>
         </include>
 
         <!-- Planning Pipelines -->

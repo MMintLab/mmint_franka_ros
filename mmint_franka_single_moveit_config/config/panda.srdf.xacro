@@ -87,6 +87,11 @@
     <xacro:configure_collisions arm_id="$(arg arm_id)" link="6"/>
     <xacro:configure_collisions arm_id="$(arg arm_id)" link="7"/>
 
+    <xacro:if value="${include_gamma}">
+        <xacro:disable_collisions_for link="$(arg arm_id)_ft"
+                                      others="${['$(arg arm_id)_link7', '$(arg arm_id)_link7_sc', '$(arg arm_id)_link8']}"/>
+    </xacro:if>
+
     <xacro:if value="${hand == 'panda_gelsight'}">
         <xacro:if value="${include_gamma}">
             <xacro:disable_collisions_for link="$(arg arm_id)_hand" others="${['$(arg arm_id)_ft']}"/>

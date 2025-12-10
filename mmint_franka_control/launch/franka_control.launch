@@ -3,6 +3,9 @@
     <arg name="robot_ip"/>
     <arg name="arm_id" default="panda_1"/>
     <arg name="hand" default="panda_hand"/>
+    <arg name="include_gamma" default="false"/>
+    <arg name="include_wrist_camera" default="false"/>
+    <arg name="include_gelsight_inserts" default="false"/>
     <!--  TODO: Parameterize base position of the robot arm  -->
 
     <!--  By default we'll leave this in to allow for interopability with code designed using combined controllers  -->
@@ -19,7 +22,8 @@
     <arg name="controllers_to_start" default="franka_state_controller position_joint_trajectory_controller"/>
 
     <group ns="$(arg robot_id)">
-        <param name="robot_description" command="xacro $(arg robot) arm_id:=$(arg arm_id) hand:=$(arg hand)"/>
+        <param name="robot_description"
+               command="xacro $(arg robot) arm_id:=$(arg arm_id) hand:=$(arg hand) include_gamma:=$(arg include_gamma) include_wrist_camera:=$(arg include_wrist_camera) include_gelsight_inserts:=$(arg include_gelsight_inserts)"/>
         <node name="franka_control" pkg="franka_control" type="franka_control_node" output="screen" required="true">
             <rosparam command="load" file="$(arg hw_config_file)" subst_value="true"/>
             <param name="robot_ip" value="$(arg robot_ip)"/>

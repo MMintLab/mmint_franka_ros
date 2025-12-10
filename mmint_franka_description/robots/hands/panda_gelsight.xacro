@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda_gelslim">
     <xacro:include filename="$(find mmint_franka_description)/robots/hands/gamma.xacro"/>
 
-    <xacro:macro name="panda_gelsight" params="connected_to:='' ns:='' rpy:='0 0 0' xyz:='0 0 0'">
+    <xacro:macro name="panda_gelsight" params="connected_to:='' ns:='' rpy:='0 0 0' xyz:='0 0 0' insert:='false'">
         <joint name="${ns}_hand_joint" type="fixed">
             <parent link="${connected_to}"/>
             <child link="${ns}_hand"/>
@@ -63,12 +63,22 @@
                 </geometry>
             </collision>
         </link>
-        <joint name="${ns}_fingerbox_left_joint" type="fixed">
-            <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
-            <parent link="${ns}_leftfinger"/>
-            <child link="${ns}_fingerbox_left"/>
-            <axis xyz="0 0 0"/>
-        </joint>
+        <xacro:if value="${insert}">
+            <joint name="${ns}_fingerbox_left_joint" type="fixed">
+                <origin rpy="0 0 0" xyz="0.0 0.0 -0.0054"/>
+                <parent link="${ns}_leftfinger"/>
+                <child link="${ns}_fingerbox_left"/>
+                <axis xyz="0 0 0"/>
+            </joint>
+        </xacro:if>
+        <xacro:unless value="${insert}">
+            <joint name="${ns}_fingerbox_left_joint" type="fixed">
+                <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+                <parent link="${ns}_leftfinger"/>
+                <child link="${ns}_fingerbox_left"/>
+                <axis xyz="0 0 0"/>
+            </joint>
+        </xacro:unless>
         <link name="${ns}_fingerbox_left">
             <visual>
                 <geometry>
@@ -81,12 +91,22 @@
                 </geometry>
             </collision>
         </link>
-        <joint name="elastomer_joint_left" type="fixed">
-            <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
-            <parent link="${ns}_fingerbox_left"/>
-            <child link="elastomer_left"/>
-            <axis xyz="0 0 0"/>
-        </joint>
+        <xacro:if value="${insert}">
+            <joint name="elastomer_joint_left" type="fixed">
+                <origin rpy="0 0 0" xyz="0.0 0.0 -0.0054"/>
+                <parent link="${ns}_leftfinger"/>
+                <child link="elastomer_left"/>
+                <axis xyz="0 0 0"/>
+            </joint>
+        </xacro:if>
+        <xacro:unless value="${insert}">
+            <joint name="elastomer_joint_left" type="fixed">
+                <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+                <parent link="${ns}_leftfinger"/>
+                <child link="elastomer_left"/>
+                <axis xyz="0 0 0"/>
+            </joint>
+        </xacro:unless>
         <link name="elastomer_left">
             <visual>
                 <geometry>
@@ -157,12 +177,22 @@
                 </geometry>
             </collision>
         </link>
-        <joint name="${ns}_fingerbox_right_joint" type="fixed">
-            <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
-            <parent link="${ns}_rightfinger"/>
-            <child link="${ns}_fingerbox_right"/>
-            <axis xyz="0 0 0"/>
-        </joint>
+        <xacro:if value="${insert}">
+            <joint name="${ns}_fingerbox_right_joint" type="fixed">
+                <origin rpy="0 0 0" xyz="0.0 0.0 -0.0054"/>
+                <parent link="${ns}_rightfinger"/>
+                <child link="${ns}_fingerbox_right"/>
+                <axis xyz="0 0 0"/>
+            </joint>
+        </xacro:if>
+        <xacro:unless value="${insert}">
+            <joint name="${ns}_fingerbox_right_joint" type="fixed">
+                <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+                <parent link="${ns}_rightfinger"/>
+                <child link="${ns}_fingerbox_right"/>
+                <axis xyz="0 0 0"/>
+            </joint>
+        </xacro:unless>
         <link name="${ns}_fingerbox_right">
             <visual>
                 <geometry>
@@ -175,12 +205,22 @@
                 </geometry>
             </collision>
         </link>
-        <joint name="elastomer_joint_right" type="fixed">
-            <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
-            <parent link="${ns}_rightfinger"/>
-            <child link="elastomer_right"/>
-            <axis xyz="0 0 0"/>
-        </joint>
+        <xacro:if value="${insert}">
+            <joint name="elastomer_joint_right" type="fixed">
+                <origin rpy="0 0 0" xyz="0.0 0.0 -0.0054"/>
+                <parent link="${ns}_rightfinger"/>
+                <child link="elastomer_right"/>
+                <axis xyz="0 0 0"/>
+            </joint>
+        </xacro:if>
+        <xacro:unless value="${insert}">
+            <joint name="elastomer_joint_right" type="fixed">
+                <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+                <parent link="${ns}_rightfinger"/>
+                <child link="elastomer_right"/>
+                <axis xyz="0 0 0"/>
+            </joint>
+        </xacro:unless>
         <link name="elastomer_right">         <!-- surface tip of the elastomer  -->
             <visual>
                 <geometry>
