@@ -15,7 +15,7 @@
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
     <group name="$(arg arm_id)">
-        <chain base_link="$(arg arm_id)_link0" tip_link="$(arg arm_id)_mount"/>
+        <chain base_link="$(arg arm_id)_link0" tip_link="$(arg arm_id)_link8"/>
     </group>
 
     <!--  Define some useful group positions  -->
@@ -82,6 +82,17 @@
     <xacro:configure_collisions arm_id="$(arg arm_id)" link="5"/>
     <xacro:configure_collisions arm_id="$(arg arm_id)" link="6"/>
     <xacro:configure_collisions arm_id="$(arg arm_id)" link="7"/>
+
+    <xacro:if value="${hand == 'panda_gelsight'}">
+        <xacro:disable_collisions_for link="$(arg arm_id)_ft"
+                                      others="${['$(arg arm_id)_link8', '$(arg arm_id)_hand', '$(arg arm_id)_link7', '$(arg arm_id)_link7_sc']}"/>
+        <xacro:disable_collisions_for link="$(arg arm_id)_hand"
+                                      others="${['mount_left', '$(arg arm_id)_leftfinger', 'mount_right', '$(arg arm_id)_rightfinger']}"/>
+        <xacro:disable_collisions_for link="mount_left" others="${['$(arg arm_id)_leftfinger']}"/>
+        <xacro:disable_collisions_for link="mount_right" others="${['$(arg arm_id)_rightfinger']}"/>
+        <xacro:disable_collisions_for link="$(arg arm_id)_leftfinger" others="${['$(arg arm_id)_fingerbox_left']}"/>
+        <xacro:disable_collisions_for link="$(arg arm_id)_rightfinger" others="${['$(arg arm_id)_fingerbox_right']}"/>
+    </xacro:if>
 
     <xacro:if value="${hand == 'sponge_eef_extend_no_gamma'}">
         <disable_collisions link1="$(arg arm_id)_ft" link2="$(arg arm_id)_link7_sc" reason="Adjacent"/>
