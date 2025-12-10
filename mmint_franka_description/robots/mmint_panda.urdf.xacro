@@ -2,15 +2,23 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
     <xacro:arg name="arm_id" default="panda_1"/>
     <xacro:arg name="hand" default="panda_hand"/>
+    <xacro:arg name="include_gamma" default="false"/>
+    <xacro:arg name="include_wrist_camera" default="false"/>
+
     <xacro:arg name="arm_xyz_base" default="0 0.4425 0.6"/>
     <xacro:arg name="arm_rpy_base" default="0.0 0.0 -1.57079633"/>
 
     <xacro:property name="hand" value="$(arg hand)"/>
+    <xacro:property name="include_gamma" value="$(arg include_gamma)"/>
+    <xacro:property name="include_wrist_camera" value="$(arg include_wrist_camera)"/>
 
     <!-- Load source xacros -->
     <xacro:include filename="$(find mmint_franka_description)/robots/materials.xacro"/>
     <xacro:include filename="$(find franka_description)/robots/common/franka_arm.xacro"/>
+
     <xacro:include filename="$(find mmint_franka_description)/robots/hands/gamma.xacro"/>
+    <xacro:include filename="$(find mmint_franka_description)/robots/hands/wrist_camera.xacro"/>
+
     <xacro:include filename="$(find mmint_franka_description)/robots/hands/panda_hand.xacro"/>
     <xacro:include filename="$(find mmint_franka_description)/robots/hands/panda_gelslim.xacro"/>
     <xacro:include filename="$(find mmint_franka_description)/robots/hands/panda_gelsight.xacro"/>
@@ -42,40 +50,62 @@
     <!-- Load arm -->
     <xacro:franka_arm arm_id="$(arg arm_id)" connected_to="base" xyz="$(arg arm_xyz_base)" rpy="$(arg arm_rpy_base)"
                       joint_limits="${xacro.load_yaml('$(find franka_description)/robots/panda/joint_limits.yaml')}"/>
+    <link name="$(arg arm_id)_flange"/>
+    <joint name="$(arg arm_id)_flange_joint" type="fixed">
+        <parent link="$(arg arm_id)_link8"/>
+        <child link="$(arg arm_id)_flange"/>
+        <origin rpy="0 0 ${-pi/4}"/>
+    </joint>
+    <xacro:property name="connecting_link" value="$(arg arm_id)_flange"/>
+
+    <xacro:if value="${include_gamma}">
+        <xacro:gamma ns="$(arg arm_id)" connected_to="$(arg arm_id)_flange"/>
+        <xacro:property name="connecting_link" value="$(arg arm_id)_ft_origin"/>
+    </xacro:if>
+    <xacro:if value="${include_wrist_camera}">
+        <xacro:if value="${include_gamma}">
+            <xacro:wrist_camera ns="$(arg arm_id)" connected_to="$(arg arm_id)_ft_origin"/>
+        </xacro:if>
+        <xacro:unless value="${include_gamma}">
+            <xacro:wrist_camera ns="$(arg arm_id)" xyz="0 0 0.0079" connected_to="$(arg arm_id)_flange"/>
+        </xacro:unless>
+        <xacro:property name="connecting_link" value="$(arg arm_id)_wrist_camera_flange"/>
+    </xacro:if>
 
     <xacro:if value="${hand == 'panda_hand'}">
-        <xacro:panda_hand ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8"/>
-    </xacro:if>
-    <xacro:if value="${hand == 'panda_hand_no_gamma'}">
-        <xacro:panda_hand ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8" link="no_gamma"/>
+        <xacro:if value="${include_gamma}">
+            <xacro:panda_hand ns="$(arg arm_id)" xyz="0 0 0.0079" connected_to="${connecting_link}"/>
+        </xacro:if>
+        <xacro:unless value="${include_gamma}">
+            <xacro:panda_hand ns="$(arg arm_id)" connected_to="${connecting_link}"/>
+        </xacro:unless>
     </xacro:if>
     <xacro:if value="${hand == 'panda_gelslim'}">
-        <xacro:panda_gelslim ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8"/>
-    </xacro:if>
-    <xacro:if value="${hand == 'gamma'}">
-        <xacro:gamma ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8"/>
+        <xacro:if value="${include_gamma}">
+            <xacro:panda_gelslim ns="$(arg arm_id)" xyz="0 0 0.0079" connected_to="${connecting_link}"/>
+        </xacro:if>
+        <xacro:unless value="${include_gamma}">
+            <xacro:panda_gelslim ns="$(arg arm_id)" connected_to="${connecting_link}"/>
+        </xacro:unless>
     </xacro:if>
     <xacro:if value="${hand == 'sponge_eef'}">
-        <xacro:sponge_eef ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8"
-                          extend="${False}"/>
-    </xacro:if>
-    <xacro:if value="${hand == 'sponge_eef_no_gamma'}">
-        <xacro:sponge_eef ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8" extend="${False}"
-                          gamma_="${False}"/>
+        <xacro:sponge_eef ns="$(arg arm_id)" connected_to="${connecting_link}" extend="${False}"/>
     </xacro:if>
     <xacro:if value="${hand == 'sponge_eef_extend'}">
-        <xacro:sponge_eef ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8"
-                          extend="${True}"/>
-    </xacro:if>
-    <xacro:if value="${hand == 'sponge_eef_extend_no_gamma'}">
-        <xacro:sponge_eef ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8" extend="${True}"
-                          gamma_="${False}"/>
+        <xacro:sponge_eef ns="$(arg arm_id)" connected_to="${connecting_link}" extend="${True}"/>
     </xacro:if>
     <xacro:if value="${hand == 'panda_gelsight'}">
-        <xacro:panda_gelsight ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8" link="gamma"/>
-    </xacro:if>
-    <xacro:if value="${hand == 'panda_gelsight_no_gamma'}">
-        <xacro:panda_gelsight ns="$(arg arm_id)" rpy="0 0 ${-pi/4}" connected_to="$(arg arm_id)_link8"/>
+        <xacro:if value="${include_gamma}">
+            <xacro:if value="${include_wrist_camera}">
+                <xacro:panda_gelsight ns="$(arg arm_id)" connected_to="${connecting_link}"/>
+            </xacro:if>
+            <xacro:unless value="${include_wrist_camera}">
+                <xacro:panda_gelsight ns="$(arg arm_id)" xyz="0 0 0.0079" connected_to="${connecting_link}"/>
+            </xacro:unless>
+        </xacro:if>
+        <xacro:unless value="${include_gamma}">
+            <xacro:panda_gelsight ns="$(arg arm_id)" connected_to="${connecting_link}"/>
+        </xacro:unless>
     </xacro:if>
 
 </robot>
