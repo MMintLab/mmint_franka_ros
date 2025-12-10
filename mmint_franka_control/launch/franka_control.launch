@@ -16,7 +16,7 @@
 
     <!--  Controller parameterization file  -->
     <arg name="controller_file" default="$(find mmint_franka_control)/config/default_controllers.yaml"/>
-    <arg name="controllers_to_start" default="franka_state_controller effort_joint_trajectory_controller"/>
+    <arg name="controllers_to_start" default="franka_state_controller position_joint_trajectory_controller"/>
 
     <group ns="$(arg robot_id)">
         <param name="robot_description" command="xacro $(arg robot) arm_id:=$(arg arm_id) hand:=$(arg hand)"/>

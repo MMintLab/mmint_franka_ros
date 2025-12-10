@@ -93,6 +93,14 @@
         <xacro:disable_collisions_for link="$(arg arm_id)_leftfinger" others="${['$(arg arm_id)_fingerbox_left']}"/>
         <xacro:disable_collisions_for link="$(arg arm_id)_rightfinger" others="${['$(arg arm_id)_fingerbox_right']}"/>
     </xacro:if>
+    <xacro:if value="${hand == 'panda_gelsight_no_gamma'}">
+        <xacro:disable_collisions_for link="$(arg arm_id)_hand"
+                                      others="${['$(arg arm_id)_link7', '$(arg arm_id)_link7_sc', '$(arg arm_id)_link8', 'mount_left', '$(arg arm_id)_leftfinger', 'mount_right', '$(arg arm_id)_rightfinger']}"/>
+        <xacro:disable_collisions_for link="mount_left" others="${['$(arg arm_id)_leftfinger']}"/>
+        <xacro:disable_collisions_for link="mount_right" others="${['$(arg arm_id)_rightfinger']}"/>
+        <xacro:disable_collisions_for link="$(arg arm_id)_leftfinger" others="${['$(arg arm_id)_fingerbox_left']}"/>
+        <xacro:disable_collisions_for link="$(arg arm_id)_rightfinger" others="${['$(arg arm_id)_fingerbox_right']}"/>
+    </xacro:if>
 
     <xacro:if value="${hand == 'sponge_eef_extend_no_gamma'}">
         <disable_collisions link1="$(arg arm_id)_ft" link2="$(arg arm_id)_link7_sc" reason="Adjacent"/>
