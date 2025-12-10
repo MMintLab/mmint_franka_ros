@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="gamma">
+    <xacro:macro name="wrist_camera" params="connected_to:='' ns:='' rpy:='0 0 0' xyz:='0 0 0'">
+        <xacro:unless value="${connected_to == ''}">
+            <joint name="${ns}_wrist_camera_joint" type="fixed">
+                <parent link="${connected_to}"/>
+                <child link="${ns}_wrist_camera_mount"/>
+                <origin xyz="${xyz}" rpy="${rpy}"/>
+            </joint>
+        </xacro:unless>
+
+        <link name="${ns}_wrist_camera_mount"/>
+
+        <link name="${ns}_wrist_camera_frame"/>
+        <joint name="${ns}_wrist_camera_frame_joint" type="fixed">
+            <parent link="${ns}_wrist_camera_mount"/>
+            <child link="${ns}_wrist_camera_frame"/>
+            <origin xyz="0.1 0.01 0.025" rpy="0.6283185305473132 0 -1.5707963267948968"/>
+        </joint>
+
+        <link name="${ns}_wrist_camera_flange"/>
+        <joint name="${ns}_wrist_camera_flange_joint" type="fixed">
+            <parent link="${ns}_wrist_camera_mount"/>
+            <child link="${ns}_wrist_camera_flange"/>
+            <origin xyz="0 0 0.0018" rpy="0 0 0"/>
+        </joint>
+    </xacro:macro>
+</robot>
