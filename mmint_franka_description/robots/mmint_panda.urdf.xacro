@@ -66,10 +66,10 @@
     </xacro:if>
     <xacro:if value="${include_wrist_camera}">
         <xacro:if value="${include_gamma}">
-            <xacro:wrist_camera ns="$(arg arm_id)" connected_to="$(arg arm_id)_ft_origin"/>
+            <xacro:wrist_camera ns="$(arg arm_id)" xyz="0 0 0.0079" connected_to="$(arg arm_id)_ft_origin"/>
         </xacro:if>
         <xacro:unless value="${include_gamma}">
-            <xacro:wrist_camera ns="$(arg arm_id)" xyz="0 0 0.0079" connected_to="$(arg arm_id)_flange"/>
+            <xacro:wrist_camera ns="$(arg arm_id)" connected_to="$(arg arm_id)_flange"/>
         </xacro:unless>
         <xacro:property name="connecting_link" value="$(arg arm_id)_wrist_camera_flange"/>
     </xacro:if>
